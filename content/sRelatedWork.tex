@@ -14,18 +14,24 @@
 % Describe what entity recognition is
 % -What is entity recognition
 % -Stanford NER and Open NLP description
-Entity Linking is an Information Extraction (IE) process by which named entities in text are identified and linked to a knowledge base.
+This section will mainly focus on describing the core concepts behind Entity Linking, the current state-of-the art implementation for solving this task, and how it struggles to classify a particular set of entities, which is the main focus of this paper, Long-tail Entities.
+It will also briefly describe the task of Entity Recognition, which commonly precedes Entity Linking and is the basis for the approaches used in this paper to describe the set of Long-tail Entities.
+
+Entity Linking is an Information Extraction (IE) process by which named entities in text are identified and linked to a "corresponding node in a Knowledge Base"\cite{rw_elo_HACHEY2013130}. 
 
 The first step in this task, identifying Named Entities, belongs to a category of its own, Named Entity Recognition (NER).
 \cite{rw_elo_Nadeau2009} best describes the purpose of this task as the identification of entities with "rigid designators",
-such as proper names and terms. Work in this area classifies Entities mostly using the collection of types known as "enamex": persons, locations and organizations \cite{rw_elo_Nadeau2009}.
-Much work has been made in this area, but the most commonly used methods for solving the task are statistical.
-Two popular software packages that use statistical approaches for NER are: Stanford Named Entity Recognizer\cite{rw_elo_finkel2005} and Apache OpenNLP\cite{rw_elo_kottmann2011};
-both of which play an important role in this paper. Stanford NER is used as the default tagger for identifying Named Entities,
-while Apache OpenNLP is used by the Named Entity Linker DBPedia Spotlight\cite{rw_elo_dbpedia}.
+such as proper names and terms. Work in this area classifies Entities mostly using the collection of types known as "enamex": persons, locations and organizations \cite{rw_elo_Nadeau2009},
+; the most commonly used methods to do this been statistical approaches.
+Two popular examples of statistical approaches to NER been the software packages: Stanford Named Entity Recognizer\cite{rw_elo_finkel2005} and Apache OpenNLP\cite{rw_elo_kottmann2011};
+both of which play an important role in this paper. Stanford NER is used in this research as the default tagger for identifying Named Entities.
 
+On the other hand, Apache OpenNLP is used in the underlying algorithm for "spotting" candidate Named Entities to link to Wikipedia by DBPedia Spotlight\cite{rw_elo_isem2013daiber},
+which is amongst the state-of-the-art methods for performing entity linking. \cite{rw_elo_isem2013daiber}, like other approaches to Entity Linking, outputs a set of entitites or "spots" tagged with, either a link to an entry in DBPedia\cite{rw_elo_dbpedia}, or the "nil" tag \cite{rw_elo_HACHEY2013130}. 
 
+%% describe dbpedias algorithm
 
+The statistical nature of the algorithm, in addition to the usage of DBPedia as a Knowledge Base, means that uncommon mentions in text are bound to be hard to link to DBPedia. This paper focuses on identifying and describing the cases on which the infrequency with which an entity is mentioned in text leads to incorrect linking of entities, and the size of this set of cases.
 
 
 %%%%%%%%%%
