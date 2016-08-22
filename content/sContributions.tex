@@ -8,9 +8,114 @@
 % Describe what a tagger is
 % List requirements of the system
 % Justify selection of Amazon as the cloud infrastructure to use
+In order to facilitate research on Long-tail entities using actual domain-specific data, a robust infrastructure is needed.
+This section lists the requirements for a Tagger Comparing System decided on by the author based on the context of the paper.
+After that, it describes the third-party off-the-shelf services used for the components of the system.
+Following is a description of the built system's architecture and the main design decisions made during the build process.
+Finally, the section concludes with a summary of the system's capabilities, and its main limitations. 
+
+\subsection{Tagger Comparing System requirements}
+In order to define the requirements for a system it's purpose and use case has to be laid out.
+The main direct use of this system was for the tagging of a large number of articles with at least two different taggers (an NER Tagger and a linker) and getting statistics over the resulting tags.
+This research is mainly exploratory, and therefore it must allow further modification of the components and the strategy to tag and compare the text.
+
+Taking this use case into account, the following requirements for the system were specified:
+\begin{enumerate}
+\item Can store test data in a persistent storage available to all system components.
+\item Minimizes new tagger deploy time.
+\item Can run multiple tagging processes at the same time.
+\item Indexes tags by:
+  \begin{enumerate}
+  \item Start character offset.
+  \item Tagger
+  \item Article ID
+  \item ENUMEX type
+  \end{enumerate}
+\item Can index tags using other features if needed.
+\item Can be reproduced with resources available to new researchers in this area.
+\item Minimizes time spent managing infrastructure.
+\end{enumerate}
+
+The main architectural driver for the system, identified during the listing of its requirements, was the need for high modifiability and performance.
+Typically, building a system that can satisfy these requirements from the ground up with good performance would require a high amount of computing resources. 
+However, at the time of writing, the decision was made for building a system that could easily be reproduced by aspiring researchers in this area.
+
+Therefore, the last requirement was added, which naturally let to the need for a normalized definition of "resources available" to new researchers.
+Amazon provides a \$100 credit for educators and students on their platform, so this was used as the main resource budget constraint for the system.
+Which means that the whole system must only be implemented using services running on the Amazon Web Services platform.
+
 \subsection{Relevant AWS Services description}
+Given the requirements and main resource budget constraint described above, the following Amazon Web Services where identified as necessary for the building of the system.
+\begin{description}
+\item[Article Storage, Amazon S3] Description
+\item[Tag Storage, Dynamo DB] Description
+\item[Performance and Scalability, Amazon Lambda] Description
+\item[Component Inter-communication, Amazon Simple Queue Service] Description
+\end{description}
+
+
 \subsection{Tagger Comparing System architecture}
-\subsection{Adding taggers to the system}
+After selecting the Amazon Web Services that suited the system's needs, the system architecture resulted in a distributed system where the main components where the AWS Lambda functions processing jobs.
+These jobs where moved through a pipeline by dequeuing and queuing them into different queues from Amazon SQS.
+
+Each full job processing step in the system is represented by a Process component composed of the following sub-components:
+\begin{enumerate}
+\item Input job (AWS SQS queue)
+\item Input job queue listener and distributer (AWS lambda function)
+\item Job consumer (AWS lambda function)
+\item Output processed job storage (AWS DynamoDB or SQS)
+\end{enumerate}
+The queue job listener and distributer, does only that, it reads messages from only one queue, and calls a Job consumer to process them.
+
+While the job consumer, must accept $n$ messages ($n > 0$), and for each message:
+\begin{enumerate}
+\item Process the message.
+\item Move processed message into output queue or index in DynamoDB.
+\item Delete the message from its originating queue.
+\end{enumerate}
+
+If a message is not processed correctly, then it must not be deleted from its originating queue.
+Each message consumed from an Amazon SQS will be made available again for reading if it is not deleted after a period of time of it been read.
+This timer is configured by the user upon creation of the queue and can be modified at any time.
+For the purpose of this system, Amazon's SQS Dead Letter Queues mechanism was used.
+Every job in a queue keeps a count of the number of times it has been read, and when that number reaches $20$ (specified by the user on creation as well), the job is moved to another queue for further inspection. This helps avoid the queue getting cluttered with unprocessable jobs. 
+
+Finally, any common data that required no transformation and needed to be accessed in bulk only by key, was kept in an S3 bucket.
+Using this project as an example, all articles from the Signal 1M dataset, tokenized into sentences, where kept in JSON format within an S3 bucket using their id as key.
+
+Following is a list of all AWS Lambda functions included in the system, and the queues they interacted with:
+\begin{description}
+\item[StanfordNERTagger] Description
+\item[Tag Storage, Dynamo DB] Description
+\item[Performance and Scalability, Amazon Lambda] Description
+\item[Component Inter-communication, Amazon Simple Queue Service] Description
+\end{description}
+
+ 
+\subsection{Tagger Comparing System summary}
+% How to adding taggers to the system
+% Amazon Lambda's soft 100 concurrent executions limit
+In summary the resulting system provides the following main capabilities:
+\begin{description}
+\item[Scalability]
+The system provides the user high granularity when selecting the number of processes to be run in parallel.
+Each job distributer lambda function in the system decides how many consumer processes it starts each time it reads from it's corresponding input queue. 
+So, for example, a user may choose to tag 1000 articles at a time by just having the job distributer read from the queue and call the consumer for 1000 jobs.
+This is by far the most important requirement satisfied, given the resource budget constraint.
+\item[Fast modifiability]
+Changes to the underlying job consumer lambda functions require only the code to be updated and uploaded as a zip file to Amazon through their console.
+Also, adding a new Process component to the pipeline requires only:
+  \begin{itemize}
+  \item
+  Selecting a queue to consume jobs from, or creating and filling one with jobs if necessary.
+  \item
+  the deployment of the Job distributer and job consumer lambda functions.
+  \item
+  Selecting a queue or a table in DynamoDB to output the processed jobs to.
+  \end{itemize}
+\end{description}
+All of these are provided by using only the AWS Services described above, which  minimizes the costs and infrastructure management time,
+therefore satisfying the requirements previously stated. 
 
 \section{Finding Long-tail Entities in the Signal's 1M Dataset}
 \subsection{Using the tagger comparing system}
