@@ -3,10 +3,48 @@ For any research to be done in Long-tail entities, a description that delimits t
 Long-tail entities, would be entities that are seldom mentioned in text and therefore form part of the "long-tail" of the distribution of entities.
 However, this doesn't say much. 
 
+This section will describe the exploratory process followed to give a first broad description of Long-tail entities and their characteristics.
+It will then list some limitations of the process, and suggestions to further improve the description of the set of Long-tail entities.
 
 \subsection{Manually exploring the data}
+Working under the hypothesis that Long-tail entities are lost somewhere in the process between spotting candidates to link and actually linking them to a KB,
+a small subset of 100 articles was randomly extracted from Signal's 1M Dataset, and tagged with three different taggers:
+\begin{itemize}
+\item Stanford Named Entity Recognizer
+\item Wikifier (Named Entity Linker)
+\item Tagme (Named Entity Linker)
+\end{itemize}
+Afterwards, all tags per document where displayed in an application (source included in the appendixes), in order to visually see the differences between a Named Entity Reconition output, and a Linker's output.
+It was hypothesised that Long-tail entities lay in the differences between the Linkers and Stanford's NER.
+These figures show the output of the application for different documents, and the differences they displayed.
+
+
 \subsection{Identification of types of Long-tail Entities}
+A manual evaluation of the previous samples led to the following two types of main Long-tail entities:
+\begin{enumerate}
+\item Entities whose mentions have no page on Wikipedia
+\item Entities that have a mention that has a page on Wikipedia, but it doesn't refer to them
+\end{enumerate}
+The second type of Long-tail entity, in the small sample explored in the previous section, usually occured on PERSON Enumex types.
+Whereas the first type, happened mostly on Organizations.
+Both of these ENUMEX types are of high priority for many NLP application, and specifically within information retrieval. 
+
 \subsection{Proposal for measuring size of Long-tail Entity set}
+The main Long-tail Entity types identified, led each to a proposal for identitying it in a corpus. 
+For the first type, entities whose mentions have no page on Wikipedia, finding them would require the following algorithm:
+\todo{HOW DO I SHOW AN ALGORITHM?}\
+\begin{enumerate}
+\item Get an article
+\item Tag the article with an NER tagger
+\item Tag the article with an Entity Linker
+\item Find all tags from the NER tagger, whose offsets do not exactly appear in the tags found by the Entity Linker
+\end{enumerate}
+This paper will explore the first type of Long-tail entities, by comparing the output of the state-of-the-art approach to NER from Stanford's NER Tagger
+to Spotlight's DBPedia.
+
+On the other hand, identifying and getting a list of the other type of Entity would involve some further disambiguation,
+using the context around the mentions in order to semantically describe them and compare them to their link to see if there is a significant similarity.
+This approach wasn't taken due to time limitations, and the focus of the paper was on identifying the first type of Long-tail entities.
 \subsection{Limitations}
 
 \section{Building a scalable cloud-based no-management Tagger Comparing System}
