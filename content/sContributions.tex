@@ -45,7 +45,13 @@ to Spotlight's DBPedia.
 On the other hand, identifying and getting a list of the other type of Entity would involve some further disambiguation,
 using the context around the mentions in order to semantically describe them and compare them to their link to see if there is a significant similarity.
 This approach wasn't taken due to time limitations, and the focus of the paper was on identifying the first type of Long-tail entities.
+
 \subsection{Limitations}
+The nature of Long-tail entities is purely statistical, therefore any approach to describe it requires a large random sample that's specific to the
+domain of study.
+In this case, the large sample is used, however due to the soft max limit of concurrent Lambda functions running set by Amazon per region, the tagging process
+was to slow to evaluate the entire dataset using the existing system. 
+However, the limit can be increased by just submitting a support ticket to Amazon, and that would allow for a more appropriate level of parallelism to be used.
 
 \section{Building a scalable cloud-based no-management Tagger Comparing System}
 % Describe what a tagger is
