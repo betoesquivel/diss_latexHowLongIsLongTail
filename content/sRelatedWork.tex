@@ -50,7 +50,29 @@ Given the statistical nature of the state-of-the art in Entity Linking, the mode
 %% Long-tail entities are specific to their domain. They must be identified isolated within their domain.
 %% Commercial relevance of Long-tail entities suggestion (show commercial applications that do Long-tail entity recognition)
 %% Describing and measuring the set of Long-tail entities allows businesses who benefit from IE tasks to decide if they will benefit from performing more granular IE tasks, which can be expensive (supervised learning of Long-tail entities requires labeling of data) to identify Long-tail entities.
-Currently, there is some work been done on classification of unlinkable or NIL entities \cite{someone}. \cite{someone} does this, while \cite{someone} does that. However, both of these approaches fail to properly define Long-tail entities as their own type of entity, of which NIL entities are only a subset. This papers gives a broader definition of the Long-tail Entity set from which further research can be derived. 
+Currently, there is some work been done on classification of unlinkable or NIL entities \cite{someone}.
+\cite{someone} does this, while \cite{someone} does that.
+However, both of these approaches fail to properly define Long-tail entities as their own type of entity, of which NIL entities are only a subset.
+This papers gives a broader definition of the Long-tail Entity set from which further research can be derived. 
 
 \subsection{The Signal 1M Dataset}
-\cite{Signal1M2016} does something
+The Long-tail entity set is directly related to the distribution of the corpora it lies in.
+Therefore, constraining this paper to a specific domain is necessary before been able to describe the set.
+
+In this paper, the research of Long-tail entities has been constrained to the news domain;
+to achieve this, the corpora chosen to do the analysis was the Signal Media One-Million News Articles Dataset\cite{Signal1M2016}.
+
+The dataset, as described by \cite{Signal1M2016}, consists of 1 million articles mainly in English,
+also including some articles translated from other languages.
+Each article includes, beside its content, the following meta-data:
+\begin{itemize}
+\item Unique global article identifier
+\item Title
+\item Media-type
+\item Source
+\item Published date
+\end{itemize}
+
+The general statistics about the article, show that articles have an average length of 405 words and come from over 93,000 different sources.
+Even though the dataset is mainly composed of News Articles (over 70\%), it also contains Blog Articles\cite{Signal1M2016}.
+However, the distribution of newswire data in the dataset is big enough for this research to be constrained to the News domain.
