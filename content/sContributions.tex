@@ -180,10 +180,10 @@ All of these are provided by using only the AWS Services described above, which 
 therefore satisfying the requirements previously stated. 
 
 \section{Finding Long-tail Entities in the Signal's 1M Dataset}\label{Contrib:LongTailInSignal}
-This section begins by showing the process of using the built Tagger Comparing System (\ref{TaggerSystem}) to tag $100,000$ articles from Signal's 1M Dataset in \ref{TaggingSignal}.
-This will consist of explaining the decisions taken for tagger parameters and level of concurrency.
-After this, the system's performance will be evaluated using the general metrics in AWS CloudWatch.
-Once the tagging process is described, section\ref{ResultsSignal} will focus on describing the process of querying the resulting tagged articles and the results of this process. 
+This section begins with section \ref{TaggingSignal} showing the process of using the built Tagger Comparing System (\ref{TaggerSystem}) to tag $100,000$ articles from Signal's 1M Dataset.
+This will consist of explaining the decisions taken for tagger parameters and the tagging process level of concurrency.
+After this, the system's performance will be described using the general metrics in AWS CloudWatch\cite{aws_cloudwatch}.
+Once the tagging process is described, section \ref{ResultsSignal} will focus on describing the process of querying the resulting tagged articles and the results of this process. 
 
 \subsection{Using the tagger comparing system}\label{TaggingSignal}
 
@@ -194,12 +194,45 @@ Once the tagging process is described, section\ref{ResultsSignal} will focus on 
 \subsubsection{Tagger Comparing System performance}
 
 \subsection{Type-1 Long-tail Entities in Signal's 1M Dataset} \label{ResultsSignal}
+Once the sample of $100,000$ articles had been tagged by both DBPedia Spotlight and Stanford's NER Tagger,
+over 3 million tags where stored in the system's database.
+Querying this amount of data directly in DynamoDB would be an ardous process due to Dynamo's max bytes return limit per query.
+Paginating over the results of every query would be slow and cumbersome.
+Therefore, a more ideal solution to querying the data was looked for.
 
-\subsubsection{Setting up an Amazon EMR Spark Cluster}
+\subsubsection{Setting up an Amazon EMR Spark Cluster for querying the Tags table}
+This led to Amazon EMR Spark Cluster \todo{Describe Amazon EMR} as a platform for loading all of the table in memory for querying.
+
+Due to the size of the dataset, an Amazon EMR Spark Cluster with the following characteristics had to be setup:
+\begin{itemize}
+  \item 1 master node
+  \item 2 core nodes
+  \item 3 task nodes
+  \item m3.xlarge instance type for all nodes
+  \item Applications installed
+    \begin{itemize}
+      \item Hive
+      \item Hue
+      \item Spark
+      \item Zeppelin
+    \end{itemize}
+\end{itemize}
+The master node and core nodes where the default setup for a Spark Cluster, and where left that way,
+but to increase the level of concurrency with which DynamoDB data was to be read, one extra task node was added.
+\todo{parallelism relation to task nodes in spark cluster reference} 
+
+After Amazon provisioned and started the nodes in the cluster, logging into the cluster was a matter of using
+\textit{ssh} and the set key pair at cluster creation. 
+Then, a \textit{Hive}\cite{hive} interpreter was started in the cluster and the following query was used to export the Tags table into S3
+so that Spark could later load it into memory.
+\input{queries/tags.sql}
 
 \subsubsection{Querying the Tags table}
+Once the \textit{Tags} table had been created, \textit{Zeppelin}\cite{zeppelin} was used to interact with the spark cluster to cache the table into memory with the following command.
+\input{queries/cache_tabel.sql}
 
-\input{queries/tags.sql}
+Caching the table allowed for the fast querying of the tag table, which fit with the exploratory quality of the research work to be done on the data.
+The following queries where tested in \textit{Zeppelin}, and then persisted by inserting their output into an Amazon \textit{S3} bucket with \textit{Hive}.
 \input{queries/tagger_tags.sql}
 \input{queries/overlapping_tags.sql}
 \input{queries/nil_tags.sql}
