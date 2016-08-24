@@ -313,16 +313,21 @@ The previous queries were done over the resulting $N$\todo{how many tags?} tags 
 
 \begin{figure}
   \centering
-  \csvautotabular{data/stanford_per_type.csv}
-  \caption{To be referenced}
+  \begin{figure}
+    \csvautotabular{data/stanford_per_type.csv}
+  \end{figure}
+  \begin{figure}
+    \centering
+    \csvreader[%
+    respect all,%
+    autotabular%
+    ]{data/spotlight_per_type.csv}{}{\csvlinetotablerow}
+    \caption{To be referenced}
+  \end{figure}
+  \caption{Two tables}
 \end{figure}
-\begin{figure}
-  \csvreader[%
-  respect all,%
-  autotabular%
-  ]{data/spotlight_per_type.csv}{}{\csvlinetotablerow}
-  \caption{To be referenced}
-\end{figure}
+
+
 
 After the manual exploration done on the small 100 article sample in section (\ref{pending}),
 the ENAMEX types ORGANIZATION and PERSON were identified as been the ones on which Stanford NER tags differed the most from entity Linkers.
