@@ -31,6 +31,8 @@ Entity Linking is an Information Extraction (IE) process by which named entities
 According to \cite{silone}, it also includes the task of clustering all NIL entitites, which are the entities the couldn't be linked to a Knowledge Base (KB).
 However, this is only a secondary task. More detailed research on the subject of NIL entities and their relationship to Long-tailed entities will be shown
 in section \ref{nilvslongtail}.
+Entity Linking is broadening its scope as a task currently, incorporating other languages into the approach \cite{silone}, trying to solve the problem
+of multi-lingual entity linking. 
 
 The first step in this task, identifying Named Entities, belongs to a category of its own, Named Entity Recognition (NER).
 \cite{rw_elo_Nadeau2009} best describes the purpose of this task as the identification of entities with "rigid designators",
@@ -44,12 +46,17 @@ which is amongst the state-of-the-art methods for performing entity linking. \ci
 
 %% describe dbpedias algorithm
 
+\subsubsection{Current problems in EL at the moment}
 The statistical nature of the algorithm, in addition to the usage of DBPedia as a Knowledge Base, means that uncommon mentions in text are bound to be hard to link
 to DBPedia.
 Coupled to this, Word ambiguities inherent to natural language like synonymy and homonymy (different surface forms referencing to the same entity and similar surface forms refering to different entities respectively) contributes to making this problem harder to solve \cite{probabilistic}.
+Also, according to \cite{framework} current evaluation methods use non comparable metrics, and inconsistent terminology, which makes it hard to see 
+areas of opportunity for research in this area.
+
 This paper's practical contribution focuses on identifying and describing the cases on which the infrequency with which an entity is mentioned in text
 leads to its incorrect linking,
 and measuring the size of this set of cases; all of this applied on a big dataset of the newswire domain.
+One main objective of the paper is to justify the discussion on describing the Long-tail entity set in order to advance research in this area.
 
 \subsection{Infrastructure requirements for entity linking}
 % Ways of using entity linkers at the moment. Use their REST service or deploy your own. 
