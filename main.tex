@@ -14,12 +14,15 @@
 \newpage
 \listoftodos
 
-\begin{figure}[htbp]
-\centering
-\DTLpiechart{variable=\quantity,outerlabel=\name}{StanfordPerType}{%
-\name=enumex_type,\quantity=tags}
-\caption{A pie chart}
-\end{figure}
+\DTLpiechart{%
+ variable=\Tags,%
+ innerratio=0.4,%
+ innerlabel={\Tags},%
+ outerlabel={\Type},%
+ rotateinner}%
+ {books}% database name
+ {\Tags=tags%
+ \Type=enumex_type}% assignment list
 
 \newpage
 \tableofcontents
