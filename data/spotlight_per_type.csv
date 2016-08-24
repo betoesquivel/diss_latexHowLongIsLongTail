@@ -1,6 +1,6 @@
 DBPedia type,tags,percent
 PERSON,579460,0.4071
 LOCATION,783062,0.5501
-MISC::Museum,27,1.8968
-MISC::Hotel,2,1.4051
+MISC::Museum,27,~
+MISC::Hotel,2,~
 MISC::MusicGroup,60869,0.04276
