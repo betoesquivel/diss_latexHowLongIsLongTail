@@ -195,13 +195,13 @@ Once the tagging process is described, section \ref{ResultsSignal} will focus on
 
 \subsection{Type-1 Long-tail Entities in Signal's 1M Dataset} \label{ResultsSignal}
 Once the sample of $100,000$ articles had been tagged by both DBPedia Spotlight and Stanford's NER Tagger,
-over 3 million tags where stored in the system's database.
+over 3 million tags were stored in the system's database.
 Querying this amount of data directly in DynamoDB would be an ardous process due to Dynamo's max bytes return limit per query.
 Paginating over the results of every query would be slow and cumbersome.
-Therefore, a more ideal solution to querying the data was looked for.
+Therefore, a more ideal solution to querying the data was chosen.
 
 \subsubsection{Setting up an Amazon EMR Spark Cluster for querying the Tags table}
-This led to Amazon EMR Spark Cluster \todo{Describe Amazon EMR} as a platform for loading all of the table in memory for querying.
+Amazon EMR Spark Cluster \todo{Describe Amazon EMR} was used as a platform to load all of the table in memory for querying.
 
 Due to the size of the dataset, an Amazon EMR Spark Cluster with the following characteristics had to be setup:
 \begin{itemize}
@@ -221,8 +221,8 @@ The master node and core nodes where the default setup for a Spark Cluster, and 
 but to increase the level of concurrency with which DynamoDB data was to be read, one extra task node was added.
 \todo{parallelism relation to task nodes in spark cluster reference} 
 
-After Amazon provisioned and started the nodes in the cluster, logging into the cluster was a matter of using
-\textit{ssh} and the set key pair at cluster creation. 
+After Amazon provisioned and started the nodes in the cluster, using the cluster was a matter of
+\textit{ssh}-ing into it with the key pair set at cluster creation. 
 Then, a \textit{Hive}\cite{hive} interpreter was started in the cluster and the following query was used to export the Tags table into S3
 so that Spark could later load it into memory.
 \input{queries/tags.sql}
@@ -237,6 +237,41 @@ The following queries where tested in \textit{Zeppelin}, and then persisted by i
 \input{queries/overlapping_tags.sql}
 \input{queries/nil_tags.sql}
 
+Following this process, the resulting set of tables was queried to find Long-tail entities of the first type defined in \ref{describinglongtail}. 
+First, each table was grouped by ENAMEX type, in order to get statistics of the distribution of tags based on their type.
+Here is an example query to achieve this for the Tags table.
+\input{queries/group_by_type.sql}\todo{look for the query}
+
+Next, the Overlapping tags table was split into two different sets based on the type agreement between the taggers used (Stanford NER and DBpedia Spotlight):
+\begin{enumerate*}
+  \item type agreement
+  \item type disagreement
+\end{enumerate}
+Below, is the example query used for describing type agreement by the taggers on overlaps:
+\input{queries/overall_type_agreement.sql}\todo{look for the query}
+
+Finally, combining the NIL and Overlps table with Stanfords table into one query, an overall description of Long-tail entities of type 1 using the differences
+between Linked and Recognized Named Entities could be achieved using the following query:
+\input{queries/overall_long_tail_distribution.sql}\todo{look for the query}
+
+
 \subsubsection{Results}
+The previous queries, where done over the resulting $N$\todo{how many tags?} found by the Tagger Comparing System (\ref{TaggerSystem}) and that led to the following results.
 
+\csvautotabular{data/stanford_per_type.csv}
 
+\csvautotabular{data/spotlight_per_type.csv}
+
+\csvautotabular{data/nil_per_type.csv}
+
+\csvautotabular{average_longtail_percent_per_article.csv}
+
+\csvautotabular{data/average_percent_ner_nel_agreement_per_article_in_overlapping_tags.csv}
+\csvautotabular{data/ner_nel_agreement_on_overlapping_tags_per_type.csv}
+\csvautotabular{data/ner_nel_disagreement_on_overlapping_tags_per_type.csv}
+\csvautotabular{data/ner_nel_agreement_in_overlapping__by_type_matches_vs_mismatches_per_type_percent.csv}
+
+\csvautotabular{data/longtail_per_type.csv}
+\csvautotabular{data/overall_longtail.csv}
+\csvautotabular{data/overall_overlap_type_matches_vs_mismatches_percent.csv}
+\csvautotabular{data/average_longtail_percent_per_article.csv}
