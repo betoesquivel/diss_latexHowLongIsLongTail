@@ -263,12 +263,46 @@ After this, the system's performance will be described using the general metrics
 Once the tagging process is described, section the last section will focus on describing the process of querying the resulting tagged articles and the results of this process. 
 
 \subsection{Using the tagger comparing system}\label{TaggingSignal}
+Setting up the tagger comparing system consisted of a series of ETL steps to preprocess the Signal 1M Dataset, load it into Amazon S3, and add 
+article id's to the TaggingJobs SQS queue to feed them into the pipeline.
+The steps to achieve this are listed in detail below:
+\begin{description}
+\item[Preprocess the articles]
+The preprocessing step consisted of tokenizing all of the Signal's 1M Dataset by tokenizing it into sentences.
+This process was done on the researchers machine since tokenization is not a slow process.
+The only care that had to be taken was to load all of the articles into memory in order to avoid blocking on I/O. 
+The preprocessing was done with a node script that called the Stanford CoreNLP server running also in the host's machine.
+The reason Node was used was that the computation was going to be done by the server so the only requirement needed for the script was that it had good
+asynchronous performance, which is what NodeJS excels at.
 
-\subsubsection{Choosing tagger parameters}
+The database used to load the articles into memory for multiple concurrent instances of the tokenizing job script to read from was redis\cite{redis}.\todo{cite redis}
+All articles were kept there as a HashMap.
 
-\subsubsection{Choosing level of concurrency}
+\item[Upload tokenized articles to S3]
+
+
+\end{description}
+
+\subsubsection{Choosing tagger parameters and level of Concurrency}
+The tagging of articles with the DBPedia entity Linker was done using their exposed rest service.
+It allows for the configuration of the confidence value used when determining whether a candidate link is a good match for the 
+mention / surface form. 
+In order to maximize link recall, the confidence value was set to a low value of $0.15$.
+
+After setting this configuration option, the only other configuration parameter sent to the service was a filter of types to
+retrieve. The filter was specified using the following value: \textit{"DBpedia:Person,DBpedia:Organization,DBpedia:Place"}.
+
+After deploying the Lambda functions for each respective tagger to AWS Lambda.
+The Node SQS tagging job consumers where deployed.
+To select the concurrency level, a parameter was specified on the lambda function specifying how many invokations of the 
+corresponding tagging Lambda functions were going to be executed at the same time.
 
 \subsubsection{Tagger Comparing System performance}
+In the end, the first preprocessing step, was not useful for the taggers.
+The main purpose of doing the sentence tokenization was to allow taggers to tag articles using batches of sentences
+in case their performance was better on small texts, like Tagme\cite{tagme}.
+However, due to time limitations, only Spotlight DBPedia was used to tag the articles, and it's performance was good
+on the full articles. 
 
 \subsection{Type-1 Long-tail Entities in Signal's 1M Dataset} \label{ResultsSignal}
 Once the sample of $100,000$ articles had been tagged by both DBPedia Spotlight and Stanford's NER Tagger,
@@ -338,20 +372,22 @@ The previous queries were done over the resulting $N$\todo{how many tags?} tags 
 \begin{figure*}[t!]
     \centering
     \begin{subfigure}[t]{0.5\textwidth}
+        \label{fig:stanfordpertype}
         \centering
         \csvautotabular{data/stanford_per_type.csv}
-        \caption{Lorem ipsum}
+        \caption{Stanford tags grouped by ENAMEX type}
     \end{subfigure}%
     ~ 
     \begin{subfigure}[t]{0.5\textwidth}
+        \label{fig:spotlightpertype}
         \centering
         \csvreader[%
         respect all,%
         autotabular%
         ]{data/spotlight_per_type.csv}{}{\csvlinetotablerow}
-            \caption{Lorem ipsum, lorem ipsum,Lorem ipsum, lorem ipsum,Lorem ipsum}
+        \caption{Spotlight tags grouped by ENAMEX type}
     \end{subfigure}
-    \caption{Caption place holder}
+    \caption{Stanford and Spotlight tags grouped by ENAMEX type}
 \end{figure*}
 
 
@@ -368,7 +404,13 @@ Meaning that the type of entities for which there is a link to an entity of the 
 are less common, and don't have as big of an effect on commercial produts as type-1 long-tail entities.\todo{establish types of entities properly}
 However, further exploration of the long-tail entities of this type was needed in order to confirm this assumption.
 
-\csvautotabular{data/nil_per_type.csv}
+\begin{figure}
+  \label{fig:nilspertype}
+  \centering
+  \csvautotabular{data/nil_per_type.csv}
+  \caption{NIL entities per type}
+\end{figure}
+
 On the other hand, in the NIL entity mentions table, all the mentions found by the NER whose offsets did not overlap the linked entities offsets,
 the distribution was mainly skewed towards the ORGANIZATION ENAMEX type.
 Almost half of the ORGANIZATIONS tagged by the NER tagger where not tagged by the linker.
@@ -379,19 +421,76 @@ that this analysis doesn't find.
 Even so, further exploration was done on the overlapping tags found by both taggers,
 in order to find what was the agreement between the taggers on ENAMEX type of tags. 
 This led to the following data:
-\csvautotabular{data/average_percent_ner_nel_agreement_per_article_in_overlapping_tags.csv}
+
+\begin{figure}
+  \label{fig:avgagreementpercentnernel}
+  \centering
+  \csvautotabular{data/average_percent_ner_nel_agreement_per_article_in_overlapping_tags.csv}
+  \caption{Average percent agreement per article between StanfordNER and Spotlight}
+\end{figure}
+
 When grouping all the overlaps per article, the average percentage type disagreement between the Linker and the NER was of 22.5\%.
 This means it is likely that the taggers will assign the same type to a given tag, once they both found it.
 Nevertheless, the disagreement percent is still significant and worth exploring.
 
-\csvautotabular{data/ner_nel_disagreement_on_overlapping_tags_per_type.csv}
-\csvautotabular{data/overall_overlap_type_matches_vs_mismatches_percent.csv}
-\csvautotabular{data/ner_nel_agreement_in_overlapping__by_type_matches_vs_mismatches_per_type_percent.csv}
+
+\begin{figure*}[t!]
+    \centering
+    \begin{subfigure}[t]{0.32\textwidth}
+        \label{fig:disagreementpertype}
+        \centering
+        \csvautotabular{data/ner_nel_disagreement_on_overlapping_tags_per_type.csv}
+        \caption{Disagreement on overlapping tags per type}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{0.33\textwidth}
+        \label{fig:agreementvsdisagreementpercent}
+        \centering
+        \csvautotabular{data/overall_overlap_type_matches_vs_mismatches_percent.csv}
+        \caption{Overall overlapped tags agreement between StanfordNER and Spotlight}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{0.32\textwidth}
+        \label{fig:agreementnernelbytype}
+        \centering
+        \csvautotabular{data/ner_nel_agreement_in_overlapping__by_type_matches_vs_mismatches_per_type_percent.csv}
+        \caption{Overall overlapped tags agreement between StanfordNER and Spotlight by type}
+    \end{subfigure}%
+
+    \caption{ENAMEX type agreement on overlaps between StanfordNER an Spotlight}
+\end{figure*}
+
 As can be seen in the tables above, the overlapping ENAMEX type agreement between the NER tagger and the linker occured exclusively on
 the PERSON and LOCATION types in the documents tagged.
 On the overlapping tags, all ORGANISATIONS found by the NER tagger were typed differently by the linker.
 It is safe to assume that, when it comes to LOCATION ENAMEX types, both Named Entity recognition and linking have similar performance,
 and the Stanford NER tagger didn't use any gazzeteers\todo{stanford gazeteers???}\cite{stanfordfaq} for the tagging process.
+
+\begin{figure*}[t!]
+    \centering
+    \begin{subfigure}[t]{0.32\textwidth}
+        \label{fig:longtailpertype}
+        \centering
+        \csvautotabular{data/longtail_per_type.csv}
+        \caption{Long-tail entities per ENAMEX type}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{0.33\textwidth}
+        \label{fig:longtail}
+        \centering
+        \csvautotabular{data/overall_longtail.csv}
+        \caption{Overall Long-tail tags}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{0.32\textwidth}
+        \label{fig:avglongtailpercentperarticle}
+        \centering
+        \csvautotabular{data/average_longtail_percent_per_article.csv}
+        \caption{Average Long-tail tag percentage per article}
+    \end{subfigure}%
+
+    \caption{Describing Long-tail entities in 100,000 tagged articles using differences between StanfordNER and Spotlight taggers}
+\end{figure*}
 
 Next, combining the NIL table with the overlapping tags for which there is type disagreement, a broad description of the Long-tail entity set for the dataset can be given.
 The distribution of long-tail entities on the corpus per type, can be seen on the next table.
@@ -402,7 +501,3 @@ This gives a surprising average of over 24.35\%.
 The difference between this value and the overall Long-tail distribution could mean that there are some articles predominantly conformed of long-tail entities.
 
 \todo{add sub conclusion to all data evaluations}
-\todo{layout positioning of tables}
-\csvautotabular{data/longtail_per_type.csv}
-\csvautotabular{data/overall_longtail.csv}
-\csvautotabular{data/average_longtail_percent_per_article.csv}
