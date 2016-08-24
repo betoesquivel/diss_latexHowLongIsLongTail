@@ -6,7 +6,7 @@ However, this doesn't say much.
 This section will describe the exploratory process followed to give a first broad description of Long-tail entities and their characteristics.
 It will then list some limitations of the process, and suggestions to further improve the description of the set of Long-tail entities.
 
-\subsubsection{Manually exploring the data}
+\subsection{Manually exploring the data}
 Working under the hypothesis that Long-tail entities are lost somewhere in the process between spotting candidates to link and actually linking them to a KB,
 a small subset of 100 articles was randomly extracted from Signal's 1M Dataset, and tagged with three different taggers:
 \begin{itemize}
@@ -19,7 +19,7 @@ It was hypothesised that Long-tail entities layed in the differences between the
 These figures show the output of the application for different documents, and how it showed the differences between taggers and linkers.
 
 
-\subsubsection{Identification of types of Long-tail Entities}
+\subsection{Identification of types of Long-tail Entities}
 A manual evaluation of the previous samples led to the following types of main Long-tail entities:
 \begin{enumerate}
 \item Entities whose mentions have no page on Wikipedia, and are therefore not linked
@@ -66,7 +66,7 @@ In this case, the large sample is used, however due to the soft max limit of con
 was to slow to evaluate the entire dataset using the existing system. 
 However, the limit can be increased by just submitting a support ticket to Amazon, and that would allow for a more appropriate level of parallelism to be used.
 
-\section{Building a scalable cloud-based no-management Tagger Comparing System}
+\section{Building a scalable cloud-based no-management Tagger Comparing System} \label{TaggerSystem}
 % Describe what a tagger is
 % List requirements of the system
 % Justify selection of Amazon as the cloud infrastructure to use
@@ -179,21 +179,31 @@ Also, adding a new Process component to the pipeline requires only:
 All of these are provided by using only the AWS Services described above, which  minimizes the costs and infrastructure management time,
 therefore satisfying the requirements previously stated. 
 
-\section{Finding Long-tail Entities in the Signal's 1M Dataset}
+\section{Finding Long-tail Entities in the Signal's 1M Dataset}\label{Contrib:LongTailInSignal}
+This section begins by showing the process of using the built Tagger Comparing System\ref{TaggerSystem} to tag $100,000$ articles from Signal's 1M Dataset in \ref{TaggingSignal}.
+This will consist of explaining the decisions taken for tagger parameters and level of concurrency.
+After this, the system's performance will be evaluated using the general metrics in AWS CloudWatch.
+Once the tagging process is described, section\ref{ResultsSignal} will focus on describing the process of querying the resulting tagged articles and the results of this process. 
 
+\subsection{Using the tagger comparing system}\label{TaggingSignal}
 
-\subsection{Using the tagger comparing system}
+\subsubsection{Choosing tagger parameters}
 
-\subsection{Selecting tagger parameters}
+\subsubsection{Choosing level of concurrency}
 
-\subsection{Querying the Tags table}
+\subsubsection{Tagger Comparing System performance}
+
+\subsection{Type-1 Long-tail Entities in Signal's 1M Dataset} \label{ResultsSignal}
+
+\subsubsection{Setting up an Amazon EMR Spark Cluster}
+
+\subsubsection{Querying the Tags table}
 
 \input{queries/tags.sql}
 \input{queries/tagger_tags.sql}
 \input{queries/overlapping_tags.sql}
 \input{queries/nil_tags.sql}
 
-\subsection{Type-1 Long-tail Entities in Signal's 1M Dataset}
+\subsubsection{Results}
 
 
-\subsection{Tagger Comparing System performance}
