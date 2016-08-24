@@ -223,8 +223,11 @@ The algorithm followed by this function in pseudocode is as follows:
 \input{algorithms/DBTagUploader.tex}
 
 
-\item[Performance and Scalability, Amazon Lambda] Description
-\item[Component Inter-communication, Amazon Simple Queue Service] Description
+\item[SpotlightTagger]
+NodeJS function that uses Spotlight's REST API to tag a group of 10 strings.
+This function is also in charge of enqueuing the tagged article for DBUpload and dequeing the tagging job,
+marking it as done.
+
 \end{description}
 
  
@@ -254,10 +257,10 @@ All of these are provided by using only the AWS Services described above, which 
 therefore satisfying the requirements previously stated. 
 
 \section{Finding Long-tail Entities in the Signal's 1M Dataset}\label{Contrib:LongTailInSignal}
-This section begins with section \ref{TaggingSignal} showing the process of using the built Tagger Comparing System (\ref{TaggerSystem}) to tag $100,000$ articles from Signal's 1M Dataset.
+This section begins by showing the process of using the built Tagger Comparing System in (\ref{TaggerSystem}) to tag $100,000$ articles from Signal's 1M Dataset.
 This will consist of explaining the decisions taken for tagger parameters and the tagging process level of concurrency.
 After this, the system's performance will be described using the general metrics in AWS CloudWatch\cite{aws_cloudwatch}.
-Once the tagging process is described, section \ref{ResultsSignal} will focus on describing the process of querying the resulting tagged articles and the results of this process. 
+Once the tagging process is described, section the last section will focus on describing the process of querying the resulting tagged articles and the results of this process. 
 
 \subsection{Using the tagger comparing system}\label{TaggingSignal}
 
