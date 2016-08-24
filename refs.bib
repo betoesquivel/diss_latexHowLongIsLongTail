@@ -1,3 +1,56 @@
+INTRODUCTION
+WEB PATTERNS SEARCH IS MAINLY ENTITY BASED
+Evaluation techniques measure quality of retrieved docs, same might be happening with entity linking, measuring the quality of links
+An argument is to be made that long-tail entities are becoming more and more important
+@inproceedings{Pound:2010:AOR:1772690.1772769,
+ author = {Pound, Jeffrey and Mika, Peter and Zaragoza, Hugo},
+ title = {Ad-hoc Object Retrieval in the Web of Data},
+ booktitle = {Proceedings of the 19th International Conference on World Wide Web},
+ series = {WWW '10},
+ year = {2010},
+ isbn = {978-1-60558-799-8},
+ location = {Raleigh, North Carolina, USA},
+ pages = {771--780},
+ numpages = {10},
+ url = {http://doi.acm.org/10.1145/1772690.1772769},
+ doi = {10.1145/1772690.1772769},
+ acmid = {1772769},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {evaluation, object retrieval, semantic search},
+} 
+
+Entity linking can lead to improval of tasks such as summarisation, search, classification
+More specifically search as an example: 64% of queries are unique -> entity linking can be used to group queries under a particular entity
+But for this, recall must be improved, more focus on new entities
+@inproceedings{Hollink:2013:WUM:2488388.2488438,
+ author = {Hollink, Laura and Mika, Peter and Blanco, Roi},
+ title = {Web Usage Mining with Semantic Analysis},
+ booktitle = {Proceedings of the 22Nd International Conference on World Wide Web},
+ series = {WWW '13},
+ year = {2013},
+ isbn = {978-1-4503-2035-1},
+ location = {Rio de Janeiro, Brazil},
+ pages = {561--570},
+ numpages = {10},
+ url = {http://doi.acm.org/10.1145/2488388.2488438},
+ doi = {10.1145/2488388.2488438},
+ acmid = {2488438},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {query log, query session, semantic analysis},
+} 
+
+The EL linking task has been growing considerably
+focusing on broadening scope
+Broader scope = sparser set of entities to recognize
+is there > long-tail ? 
+This is thought to be dependent of the dataset, and therefore, analysis on real big data is required to answer the question.
+@article{silone,
+  title={One for All: Towards Language Independent Named Entity Linking},
+  author={Sil, Avirup and Florian, Radu}
+}
+
 RELATED WORK
 What is ner
 @incollection{rw_elo_Nadeau2009,
@@ -66,6 +119,76 @@ abstract = "Named Entity Linking (nel) grounds entity mentions to their correspo
   year={2012},
   publisher={Emerald Group Publishing Limited}
 }
+
+
+DIRECTLY RELATED WORK on long tail entities 
+@inproceedings{Farid:2016:LEP:2911451.2911466,
+ author = {Farid, Mina and Ilyas, Ihab F. and Whang, Steven Euijong and Yu, Cong},
+ title = {LONLIES: Estimating Property Values for Long Tail Entities},
+ booktitle = {Proceedings of the 39th International ACM SIGIR Conference on Research and Development in Information Retrieval},
+ series = {SIGIR '16},
+ year = {2016},
+ isbn = {978-1-4503-4069-4},
+ location = {Pisa, Italy},
+ pages = {1125--1128},
+ numpages = {4},
+ url = {http://doi.acm.org/10.1145/2911451.2911466},
+ doi = {10.1145/2911451.2911466},
+ acmid = {2911466},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {entity search, knowledge base construction, question answering}
+}
+
+This goes at the end of entity linking intro right before NIL vs long-tail
+Challenges of entity linking
+The main challenges arise from
+word ambiguities inherent to natural language: surface form
+synonymy, i.e., different spans of text referring to the same
+entity, and homonymy, i.e., the same name being shared by
+multiple entities.
+Another example of probabilistic approaches => doesn't solve the problem of the heavy tail
+Concluded they want to expand getting from more info sources in order to enrich the probabilistic model
+The problem is when entities are new
+@inproceedings{Ganea:2016:PBM:2872427.2882988,
+ author = {Ganea, Octavian-Eugen and Ganea, Marina and Lucchi, Aurelien and Eickhoff, Carsten and Hofmann, Thomas},
+ title = {Probabilistic Bag-Of-Hyperlinks Model for Entity Linking},
+ booktitle = {Proceedings of the 25th International Conference on World Wide Web},
+ series = {WWW '16},
+ year = {2016},
+ isbn = {978-1-4503-4143-1},
+ location = {Montr\&\#233;al, Qu\&\#233;bec, Canada},
+ pages = {927--938},
+ numpages = {12},
+ url = {http://dx.doi.org/10.1145/2872427.2882988},
+ doi = {10.1145/2872427.2882988},
+ acmid = {2882988},
+ publisher = {International World Wide Web Conferences Steering Committee},
+ address = {Republic and Canton of Geneva, Switzerland},
+ keywords = {approximate inference, entity disambiguation, entity linking, loopy belief propagation, probabilistic graphical models, wikification},
+} 
+
+Importance of Entity Linking
+Problems in Entity Linking
+Spotlight DB is the best [20] of the paper
+Syntactic and Semantic measures of correctness
+@inproceedings{Cornolti:2013:FBE:2488388.2488411,
+ author = {Cornolti, Marco and Ferragina, Paolo and Ciaramita, Massimiliano},
+ title = {A Framework for Benchmarking Entity-annotation Systems},
+ booktitle = {Proceedings of the 22Nd International Conference on World Wide Web},
+ series = {WWW '13},
+ year = {2013},
+ isbn = {978-1-4503-2035-1},
+ location = {Rio de Janeiro, Brazil},
+ pages = {249--260},
+ numpages = {12},
+ url = {http://doi.acm.org/10.1145/2488388.2488411},
+ doi = {10.1145/2488388.2488411},
+ acmid = {2488411},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {wikipedia},
+} 
 @inproceedings{Signal1M2016,
     author    = {David Corney and Dyaa Albakour and Miguel Martinez and Samir Moussa},
     title     = {What do a Million News Articles Look like?},
@@ -76,3 +199,4 @@ abstract = "Named Entity Linking (nel) grounds entity mentions to their correspo
     year      = {2016},
     url       = {http://ceur-ws.org/Vol-1568/paper8.pdf}
 }
+
