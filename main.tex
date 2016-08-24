@@ -14,15 +14,8 @@
 \newpage
 \listoftodos
 
-\DTLpiechart{%
- variable=\DTLround{\Tags}{\Tags}{2},%
- innerratio=0.4,%
- innerlabel={\Tags},%
- outerlabel={\Types},%
- rotateinner}%
-{StanfordPerType}% database name
-{\Tags=percent,%
- \Types=enumex}% assignment list
+\csvautotabular{data/stanford_per_type.csv}
+
 
 \newpage
 \tableofcontents
