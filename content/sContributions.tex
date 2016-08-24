@@ -108,11 +108,63 @@ Which means that the whole system must only be implemented using services runnin
 
 \subsection{Relevant AWS Services description}
 Given the requirements and main resource budget constraint described above, the following Amazon Web Services where identified as necessary for the building of the system.
+Also, after the Tagger System was run on the data, the number of tags obtained was to large for DynamoDB to be a practical querying interface to explore the data.
+Therefore, AWS EMR\cite{aws_emr} was added to the AWS services stack for querying the whole dataset by bringing it into memory on a Spark cluster.
 \begin{description}
-\item[Article Storage, Amazon S3] Description
-\item[Tag Storage, Dynamo DB] Description
-\item[Performance and Scalability, Amazon Lambda] Description
-\item[Component Inter-communication, Amazon Simple Queue Service] Description
+\item[Article Storage, Amazon S3]
+Amazon S3 is Amazon's solution for Storage of objects too large to store on a Database.
+It provides buckets as the main containers for objects, which can be organized into a folder structure inside each bucket,
+are replicated within a region to ensure high availability, and are accessed by a unique identifier or key.
+All articles from the Signal's Dataset where stored in S3, since the only information used from the article was the content for the tagging.
+Before uploading the articles to Amazon, they where tokenized into sentences.
+This was done in order to provide any tagger with the flexibility of tagging an article in batches of sentences, since some entity linkers work better with short texts, like Tagme\cite{tagme}.
+\item[Tag Storage, Dynamo DB]
+Dynamod DB is advertised by Amazon as a no-management predictable-performance no-sql database. When setting up a table in the service, the estimated throughput (read and writes per second) is defined by the user, and Amazon allocates the resources necessary to provide that throughput. 
+  
+On DynamoDB, a user only pays for the resources allocated for tables hourly.
+This allows for a fairly granular cost control when using the service.
+For this research's particular case, high throughputs where only set on the Tags table when performing tagging jobs or when reading all of the data into S3 for exploration.
+After this processes where completed, the throughput was lowered again preventing further charges to be applied for the table.
+
+Each table in DynamoDB is schemaless to a point. 
+This is because in order for DynamoDB to acomplish predictable performance, it needs to index data in a way that makes it easy to access concurrently, therfore, every record must be composed of either just a unique key, or a Hash key to sort the data and a Range key to uniquely identify the record within it's hash.
+In this way, Dynamo can execute multiple writes at the same time in different partition nodes, assuming the access pattern of the data in the table is uniform.
+This is the caveat of using Dynamo.
+The performance is dependent on the access pattern of the data.
+Therefore, Hash and Hash/Range keys must be selected in a way that predict how data is going to be accessed, otherwise, one partition of the data is going to be queried more times than the rest and DynamoDB won't  be able to leverage its distributed architecture.
+
+Nonetheless, the batch nature of the task to be performed in this paper, allowed for the full control of the access patterns for the data on Dynamo,
+so it was a perfect way of getting a high performance distributed store that could be accessed by multiple concurrent processses at the same time.
+\item[Performance and Scalability, Amazon Lambda]
+One of the core services for the developing of an economic, performant and scalable tagger comparing system is Amazon Lambda.
+It allows for functions to to be written in either NodeJS, Java or Python and deployed on their infrastructure.
+On creation of a function, the user only specifies the resources needed for the function to run, and optional triggers that will execute the function.
+After this, the function can be called using the AWS SDK, and Amazon will scale up or down, the resources allocated for the execution of the function
+depending on the load the function is receiving.
+The user will only be charged for the amount of time the function is running, and the resources it consumed in that time.
+
+So, specifically for this project, Amazon Lambdas, allowed for the definition of processes to either create tags or upload them to DynamoDB concurrently
+without having to think about creating an elastic cluster with the computing resources necessary for the batch processing of tagging jobs. 
+
+One caveat with this service is that there is a soft-limit of number of concurrent executions per second per region of 100.
+This can be lifted with a simple request to the support centre in Amazon, however, it takes time to justify the lifting of the limit.
+Because of this reason, this research's experiment only processed a sample of 100,000 articles out of the 1,000,000 in the used dataset.
+All of the tagging job requests to Amazon Lambda functions coded for this project where been throttled so the amount of data processed had to be reduced.
+\item[Component Inter-communication, Amazon Simple Queue Service] 
+Amazon's Simple Queue Service is a reliable high-performance queuing service that works perfectly with highly distributed architectures.
+It provides a reliable way to communicate jobs between services following a simple Producer and Consumer model. 
+
+The pricing of this service is not high, and in the case of this research, given that the first 1,000,000 requests are free for starting users,
+it was costless to use.
+
+\item[Data exploration and analysis, Amazon EMR Cluster with Hive and Spark enabled] Description
+This is one of the more expensive Amazon solutions used. There was no free-tier that fit the requirements for this project.
+Amazon provides an already setup cluster, allowing the user only to tune specifications of the cluster like the number and type of the nodes.
+It also gives the user the option to install popular applications for working with Big Data like: Hadooop, Hive, MapReduce, Pig, Spark, ...
+This is the Amazon Service used that requires the most setup, and it is still straightforward and can all be done from Amazon's console. 
+
+With just a few minutes of configuration, a user can have a full powerful cluster for performing data analysis, without having to spend too much 
+time or money allocating or managing the infrastructure.
 \end{description}
 
 
