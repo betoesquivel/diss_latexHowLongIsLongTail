@@ -197,13 +197,32 @@ For the purpose of this system, Amazon's SQS Dead Letter Queues mechanism was us
 Every job in a queue keeps a count of the number of times it has been read, and when that number reaches $20$ (specified by the user on creation as well), the job is moved to another queue for further inspection. This helps avoid the queue getting cluttered with unprocessable jobs. 
 
 Finally, any common data that required no transformation and needed to be accessed in bulk only by key, was kept in an S3 bucket.
-Using this project as an example, all articles from the Signal 1M dataset, tokenized into sentences, where kept in JSON format within an S3 bucket using their id as key.
+Using this project as an example, all articles from the Signal 1M dataset, tokenized into sentences,
+where kept in JSON format within an S3 bucket using their id as key.
 
-Following is a list of all AWS Lambda functions included in the system, and the queues they interacted with:
+Following is a list of all AWS Lambda functions included in the system whose main job was processing data.
+Their code, along with a full listing of the other functions used by the System
+can be seen in section \ref{appendices}:
 \todo{describe this functions}
 \begin{description}
-\item[StanfordNERTagger] Description
-\item[Tag Storage, Dynamo DB] Description
+\item[StanfordNERTagger]
+Java function that uses the CRFClassifier class from the stanford-corenlp main java package to tag raw text.
+It receives as input a list of strings, and for each string, it returns a JSON representation of a list of maps.
+Each map respresents a tag and contains the following key-value pairs:
+\begin{itemize}
+  \item Start offset: Integer
+  \item End Offset: Integer
+  \item Type: String
+\end{itemize}
+\item[DBTagUploader]
+Python function that receives a list of tagged articles and uploads them to DynamoDB using the boto3 package
+offered by Amazon to interface with Dynamo.
+This function is also in charge of queuing tagging jobs for the SpotlightTagger function.
+
+The algorithm followed by this function in pseudocode is as follows:
+\input{algorithms/DBTagUploader.tex}
+
+
 \item[Performance and Scalability, Amazon Lambda] Description
 \item[Component Inter-communication, Amazon Simple Queue Service] Description
 \end{description}
