@@ -2,6 +2,7 @@
 \input{settings/packages}
 \addbibresource{refs.bib}
 
+\DTLsetseparator{|} 
 \DTLloaddb{StanfordPerType}{data/stanford_per_type.csv}
 
 \begin{document}
@@ -17,7 +18,7 @@
 \begin{figure}[htbp]
 \centering
 \DTLpiechart{variable=\quantity,outerlabel=\name}{StanfordPerType}{%
-\name=enumex_type,\quantity=tags}
+\name="enumex_type",\quantity=tags}
 \caption{A pie chart}
 \end{figure}
 
