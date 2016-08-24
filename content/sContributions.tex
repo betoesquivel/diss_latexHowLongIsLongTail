@@ -260,7 +260,10 @@ The previous queries, where done over the resulting $N$\todo{how many tags?} fou
 
 \csvautotabular{data/stanford_per_type.csv}
 
-\csvautotabular{data/spotlight_per_type.csv}
+\csvreader[%
+   respect all,%
+   autotabular%
+ ]{spotlight_per_type.csv}{}{\csvlinetotablerow}%
 
 \csvautotabular{data/nil_per_type.csv}
 
