@@ -256,16 +256,15 @@ between Linked and Recognized Named Entities could be achieved using the followi
 
 
 \subsubsection{Results}
-The previous queries, where done over the resulting $N$\todo{how many tags?} found by the Tagger Comparing System (\ref{TaggerSystem}) and that led to the following results.
+The previous queries were done over the resulting $N$\todo{how many tags?} tags found by the Tagger Comparing System (\ref{TaggerSystem}) and that led to the following results.
 
-\csvautotabular{data/stanford_per_type.csv}
 
-\csvreader[%
-   respect all,%
-   autotabular%
- ]{data/spotlight_per_type.csv}{}{\csvlinetotablerow}%
-
-\csvautotabular{data/nil_per_type.csv}
+\subfloat[Stanford per type]{\csvautotabular{data/stanford_per_type.csv}}
+\subfloat[Spotlight per type]{\csvreader[%
+  respect all,%
+  autotabular%
+  ]{data/spotlight_per_type.csv}{}{\csvlinetotablerow}}
+\subfloat[NIL per type]{\csvautotabular{data/nil_per_type.csv}}
 
 \csvautotabular{data/average_percent_ner_nel_agreement_per_article_in_overlapping_tags.csv}
 \csvautotabular{data/ner_nel_agreement_on_overlapping_tags_per_type.csv}
