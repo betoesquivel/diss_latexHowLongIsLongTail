@@ -404,7 +404,7 @@ Meaning that the type of entities for which there is a link to an entity of the 
 are less common, and don't have as big of an effect on commercial produts as type-1 long-tail entities.\todo{establish types of entities properly}
 However, further exploration of the long-tail entities of this type was needed in order to confirm this assumption.
 
-\begin{figure}
+\begin{figure}[h]
   \label{fig:nilspertype}
   \centering
   \csvautotabular{data/nil_per_type.csv}
@@ -422,7 +422,7 @@ Even so, further exploration was done on the overlapping tags found by both tagg
 in order to find what was the agreement between the taggers on ENAMEX type of tags. 
 This led to the following data:
 
-\begin{figure}
+\begin{figure}[h]
   \label{fig:avgagreementpercentnernel}
   \centering
   \csvautotabular{data/average_percent_ner_nel_agreement_per_article_in_overlapping_tags.csv}
@@ -448,7 +448,6 @@ Nevertheless, the disagreement percent is still significant and worth exploring.
 \end{figure}
 
 \begin{figure}[h]
-    \centering
     \label{fig:agreementnernelbytype}
     \centering
     \csvautotabular{data/ner_nel_agreement_in_overlapping__by_type_matches_vs_mismatches_per_type_percent.csv}
