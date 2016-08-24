@@ -10,24 +10,37 @@ It will then list some limitations of the process, and suggestions to further im
 Working under the hypothesis that Long-tail entities are lost somewhere in the process between spotting candidates to link and actually linking them to a KB,
 a small subset of 100 articles was randomly extracted from Signal's 1M Dataset, and tagged with three different taggers:
 \begin{itemize}
-\item Stanford Named Entity Recognizer
-\item Wikifier (Named Entity Linker)
-\item Tagme (Named Entity Linker)
+\item Stanford Named Entity Recognizer\cite{rw_elo_finkel2005}
+\item Wikifier (Named Entity Linker)\cite{wikifier_used}
+\item Tagme (Named Entity Linker)\cite{tagme}
 \end{itemize}
 Afterwards, all tags per document where displayed in an application (source included in the appendixes), in order to visually see the differences between a Named Entity Reconition output, and a Linker's output.
-It was hypothesised that Long-tail entities lay in the differences between the Linkers and Stanford's NER.
-These figures show the output of the application for different documents, and the differences they displayed.
+It was hypothesised that Long-tail entities layed in the differences between the Linkers and Stanford's NER.
+These figures show the output of the application for different documents, and how it showed the differences between taggers and linkers.
 
 
 \subsection{Identification of types of Long-tail Entities}
-A manual evaluation of the previous samples led to the following two types of main Long-tail entities:
+A manual evaluation of the previous samples led to the following types of main Long-tail entities:
 \begin{enumerate}
-\item Entities whose mentions have no page on Wikipedia
-\item Entities that have a mention that has a page on Wikipedia, but it doesn't refer to them
+\item Entities whose mentions have no page on Wikipedia, and are therefore not linked
+\item Entities whose mentions are not on Wikipedia, but are refered to by a surface form with an existing unrelated Wikipedia page.
 \end{enumerate}
 The second type of Long-tail entity, in the small sample explored in the previous section, usually occured on PERSON Enumex types.
 Whereas the first type, happened mostly on Organizations.
-Both of these ENUMEX types are of high priority for many NLP application, and specifically within information retrieval. 
+Here is an example of both:
+\todo Add an image to both types of mistakes
+
+As can be seen in figures \ref{fig:mislinked_person} and \ref{fig:mislinked_organization}, there are two ways in which these types of mistakes manifest.
+First, there is an overlap between the linker's and the NER tagger's tags. The linker links only a subset of the surface form, and links it with a different type.
+On the other hand, the second type of long-tail entity manifests as a correct matching overlap between the surface form tagged by the the linker and the tagger.
+However, the actual link is to an unrelated popular entity with an entry on the KB. 
+
+Both of these ENUMEX types are of high priority for many NLP applications, and specifically within information retrieval. 
+\todo add the statistics on queries for information retrieval, somewhere
+
+Long-tail entities explored in this paper will be limited to the first type identified, considering it should be enough to serve as a basis for further research,
+and to show the importance of doing research in this area. 
+
 
 \subsection{Proposal for measuring size of Long-tail Entity set}
 The main Long-tail Entity types identified, led each to a proposal for identitying it in a corpus. 
@@ -167,6 +180,22 @@ All of these are provided by using only the AWS Services described above, which 
 therefore satisfying the requirements previously stated. 
 
 \section{Finding Long-tail Entities in the Signal's 1M Dataset}
+
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=left,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+a = LOAD 'data' USING BinStorage AS (user);
+b = GROUP a BY user;
+/* Now we are ready to loop */
+c = FOREACH b GENERATE COUNT(a) AS cnt;
+d = ORDER c BY cnt;
+\end{lstlisting}
+
 \subsection{Using the tagger comparing system}
 \subsection{Selecting tagger parameters}
 \subsection{Type-1 Long-tail Entities in Signal's 1M Dataset}
