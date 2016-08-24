@@ -1,6 +1,13 @@
+
+
 \section{Related Work} %RW
-\subsection{Background and terminology for the paper}
-% Explain some terminology for the paper and some background information
+The following section explains some background on the area of Entity Linking,
+and describes the context around Entity Linking applications and evaluation,
+as well as current research done in the linking of Long-tail Entities.
+From this point on, whenever the paper refers to a tagger, it is refering to a generic application that assigns tags to text.
+This facilitates the comparison between Stanford's NER Tagger and Spotlight's DBPedia's applications by treating them both as taggers;
+and enforcing the equal role they both play on the description of the Long-tail Entity set for a specific domain.
+
 \subsection{Entity linking overview} %ELO
 % Describe what entity recognition is
 % -What is entity recognition
@@ -19,7 +26,9 @@
 This section will mainly focus on describing the core concepts behind Entity Linking, the current state-of-the art implementation for solving this task, and how it struggles to classify a particular set of entities, which is the main focus of this paper, Long-tail Entities.
 It will also briefly describe the task of Entity Recognition, which commonly precedes Entity Linking and is the basis for the approaches used in this paper to describe the set of Long-tail Entities.
 
-Entity Linking is an Information Extraction (IE) process by which named entities in text are identified and linked to a "corresponding node in a Knowledge Base"\cite{rw_elo_HACHEY2013130}. 
+Entity Linking is an Information Extraction (IE) process by which named entities in text are identified and linked to a
+"corresponding node in a Knowledge Base"\cite{rw_elo_HACHEY2013130}. 
+According to \cite{silone}, it also includes the task of clustering all NIL entitites, which are the entities the couldn't be linked to a Knowledge Base (KB).
 
 The first step in this task, identifying Named Entities, belongs to a category of its own, Named Entity Recognition (NER).
 \cite{rw_elo_Nadeau2009} best describes the purpose of this task as the identification of entities with "rigid designators",
