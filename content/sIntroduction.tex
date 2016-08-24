@@ -27,3 +27,25 @@ in order to gain some insight that may yield a competitive advantage;
 information extraction and text analytics has even become a popular area for startup businesses to compete in \cite{techcrunch, ventureradar},
 with even the big companies in the industry (Apple, Google, Microsoft, Yahoo, ...) all participating with their own products that leverage IE technologies and research.
 
+However, evaluation techniques for Entity Linking tasks could be suffering from the same problem that search has suffered\cite{webpatterns}, where the quality
+of the retrieved links is the main focus of the research, leading to task improvements only in the recognition of common popular entities, not focusing on the
+often times harder problem of recognizing and linking the uncommon entities that rarely appear in text.
+
+Many approaches to Entity Linking are probabilistic \cite{probabilistic, rw_elo_morsey2012dbpedia, rw_elo_Nadeau2009},
+achieving a state-of-the art efficiency by approximating links using statistics of the corpus and characteristics of huge Knowledge Bases (KB) like DBPedia
+\cite{rw_elo_morsey2012dbpedia} to solve the task.
+However, given the everchanging nature of the existing set of entities, often the conclusions of these approaches, like \cite{probabilistic}, end up suggesting
+the addition of information from other KBs or sources to improve the coverage of the entities they can recognise.
+Therefore, the state of the art Entity Linking (EL) applications end up consuming a large amount of computing and memory resources, making it hard to perform new research on the area.
+In addition to this, evaluating an Entity Linker on a real dataset big enough to provide significant results ends up been an overwhelming and slow task.
+
+To solve these problems, the purpose of this paper was to establish a base to facilitate further research on Long-tail Entity Linking
+in a way that is practical and accessible to new researchers in the area.
+The main contributions of this paper are:
+\begin{enumerate}
+  \item Provided a description with real examples of Long-tail entity types in newswire data.
+  \item Built and described a scalable no-management system for comparing text tagging applications, which also proved accessible for starting researchers in the area and educators by leveraging cloud technologies.
+  \item Presented a practical example of using the system to describing the Long-tail entities in a real-world large dataset.
+\end{enumerate}
+
+The rest of this paper is organized in the following way. \todo{list the sections of the paper}
