@@ -4,21 +4,24 @@
 
 \begin{algorithmic}[1]
 \Procedure{UploadTaggedArticles}{}
-\State $\textit{stringlen} \gets \text{length of }\textit{string}$
-\State $i \gets \textit{patlen}$
-\BState \emph{top}:
-\If {$i > \textit{stringlen}$} \Return false
+\State $\textit{parsedArticles} \gets \textit{map}(\textit{addTagIdToArticle}, \textit{articles})$
+\State $\textit{shuffledTags} \gets \textit{Empty List}()$
+\BState \emph{topmain}:
+\If {\textit{filter} (\textit{empty?}, \textit{parsedArticles})} \Return false
 \EndIf
-\State $j \gets \textit{patlen}$
-\BState \emph{loop}:
+\BState \emph{mainloop}:
+\BState \emph{topsub}:
+\If {$i >= \textit{parsedArticles}.\textit{length}$} \Return false
+\EndIf
+\BState \emph{subloop}:
 \If {$\textit{string}(i) = \textit{path}(j)$}
 \State $j \gets j-1$.
 \State $i \gets i-1$.
-\State \textbf{goto} \emph{loop}.
+\State \textbf{goto} \emph{subloop}.
 \State \textbf{close};
 \EndIf
 \State $i \gets i+\max(\textit{delta}_1(\textit{string}(i)),\textit{delta}_2(j))$.
-\State \textbf{goto} \emph{top}.
+\State \textbf{goto} \emph{topsub}.
 \EndProcedure
 
 \end{algorithmic}
