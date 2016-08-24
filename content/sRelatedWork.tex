@@ -33,17 +33,29 @@ which is amongst the state-of-the-art methods for performing entity linking. \ci
 
 %% describe dbpedias algorithm
 
-The statistical nature of the algorithm, in addition to the usage of DBPedia as a Knowledge Base, means that uncommon mentions in text are bound to be hard to link to DBPedia. This paper focuses on identifying and describing the cases on which the infrequency with which an entity is mentioned in text leads to incorrect linking of entities, and the size of this set of cases.
-
-% describe tagme as well, and it's algorithm
+The statistical nature of the algorithm, in addition to the usage of DBPedia as a Knowledge Base, means that uncommon mentions in text are bound to be hard to link
+to DBPedia.
+Coupled to this, Word ambiguities inherent to natural language like synonymy and homonymy (different surface forms referencing to the same entity and similar surface forms refering to different entities respectively) contributes to making this problem harder to solve \cite{probabilistic}.
+This paper's practical contribution focuses on identifying and describing the cases on which the infrequency with which an entity is mentioned in text
+leads to its incorrect linking,
+and measuring the size of this set of cases; all of this applied on a big dataset of the newswire domain.
 
 \subsection{Infrastructure requirements for entity linking}
 % Ways of using entity linkers at the moment. Use their REST service or deploy your own. 
 % Memory requirements
 %% How is this related: Difficult to conduct research without knowledge of infrastructure cluster management or a server that satisfies this requirements. 
 %% How I build on this: Build a system that uses Cloud-based technologies for tagging data and querying the results. 
-Given the statistical nature of the state-of-the art in Entity Linking, the models used by these algorithms are trained on massive amounts of data and therefore consume large amounts of memory. This means that, in order to use them to tag text, high-end computing resources are needed. As an example, DBPedia Spotlight, requires at least 8 MB of data \cite{rw_elo_isem2013daiber} to load the language models and spots dictionaries required for tagging text. This requirement of computing resources, means that the system often cannot be run in the researchers machine and therefore requires some deployment to a server and using it as a server \cite{rw_elo_spotlightwebservice}. This slows down research, since the management of these computing resources is time-consuming and expensive. Since the comparison of entity linking services like DBPedia Spotlight and entity recognizers like Stanford's NER is basic in order to identify the size of the Long-tail entity dataset, in order to provide a base for further research in this area, this paper also focuses on building a system architecture that leverages cloud technologies in order to minimize the impact in time and cost that running these services has on research. 
+Given the statistical nature of the state-of-the art in Entity Linking, the models used by these algorithms are trained on massive amounts of data and therefore consume large amounts of memory.
+This means that, in order to use them to tag text, high-end computing resources are needed.
+As an example, DBPedia Spotlight, amongst the current state of the art in Entity Linking \cite{rizzo2012nerd},
+requires at least 8 MB of data \cite{rw_elo_isem2013daiber} to load the language models and spots dictionaries required for tagging text.
+This requirement of computing resources, means that the system often cannot be run in the researchers machine
+and therefore requires some deployment to a server and using it as a server \cite{rw_elo_spotlightwebservice}.
+This slows down research, since the management of these computing resources is time-consuming and expensive.
 
+Since the comparison of entity linking services like DBPedia Spotlight and entity recognizers like Stanford's NER
+is necessary in order to identify the size of the Long-tail entity dataset,
+in order to provide a base for further research in this area, this paper also focuses on building a system architecture that leverages cloud technologies in order to minimize the impact in time and cost that running these services has on research. 
 
 \subsection{NIL Entities versus Long-tail Entities}
 % How are NIL Entities described in current papers.
