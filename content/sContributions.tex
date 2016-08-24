@@ -310,23 +310,24 @@ between Linked and Recognized Named Entities could be achieved using the followi
 \subsubsection{Results}
 The previous queries were done over the resulting $N$\todo{how many tags?} tags found by the Tagger Comparing System (\ref{TaggerSystem}) and that led to the following results.
 
-
-\begin{figure}
-  \centering
-  \begin{figure}
-    \csvautotabular{data/stanford_per_type.csv}
-  \end{figure}
-  \begin{figure}
+\begin{figure*}[t!]
     \centering
-    \csvreader[%
-    respect all,%
-    autotabular%
-    ]{data/spotlight_per_type.csv}{}{\csvlinetotablerow}
-    \caption{To be referenced}
-  \end{figure}
-  \caption{Two tables}
-\end{figure}
-
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \csvautotabular{data/stanford_per_type.csv}
+        \caption{Lorem ipsum}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \csvreader[%
+        respect all,%
+        autotabular%
+        ]{data/spotlight_per_type.csv}{}{\csvlinetotablerow}
+            \caption{Lorem ipsum, lorem ipsum,Lorem ipsum, lorem ipsum,Lorem ipsum}
+    \end{subfigure}
+    \caption{Caption place holder}
+\end{figure*}
 
 
 After the manual exploration done on the small 100 article sample in section (\ref{pending}),
