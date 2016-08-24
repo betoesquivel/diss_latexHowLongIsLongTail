@@ -264,14 +264,54 @@ The previous queries were done over the resulting $N$\todo{how many tags?} tags 
 respect all,%
 autotabular%
 ]{data/spotlight_per_type.csv}{}{\csvlinetotablerow}
+
+After the manual exploration done on the small 100 article sample in section (\ref{pending}),
+the ENAMEX types ORGANIZATION and PERSON were identified as been the ones on which Stanford NER tags differed the most from entity Linkers.
+Even though a different entity linker was used for the main comparison with Stanford's NER, from these results,
+it can be infered that the same relationship is going to be kept between the NER and the linker.
+
+Stanford's predominant ENAMEX tag type was PERSON, while Spotlight's predominant tag type was LOCATION.
+Naturally, the NER found more tags in the article.
+So far, this could be considered as support for the established hypothesis\todo{Establish the hypothesis} that Long-tail entities lay mainly in the differences between 
+the mentioned and linked entities in an article.
+Meaning that the type of entities for which there is a link to an entity of the same type as the mention's ENAMEX type, but that refers to another entity
+are less common, and don't have as big of an effect on commercial produts as type-1 long-tail entities.\todo{establish types of entities properly}
+However, further exploration of the long-tail entities of this type was needed in order to confirm this assumption.
+
 \csvautotabular{data/nil_per_type.csv}
+On the other hand, in the NIL entity mentions table, all the mentions found by the NER whose offsets did not overlap the linked entities offsets,
+the distribution was mainly skewed towards the ORGANIZATION ENAMEX type.
+Almost half of the ORGANIZATIONS tagged by the NER tagger where not tagged by the linker.
+Differently, PERSONS and LOCATIONS where less commonly missed by the Entity Linker.
+It is important to note, that within the PERSON type tags that where found by Spotlight and Stanford NER, there could be a subset of tags which are linked to unrelated entities,
+that this analysis doesn't find.
 
+Even so, further exploration was done on the overlapping tags found by both taggers,
+in order to find what was the agreement between the taggers on ENAMEX type of tags. 
+This led to the following data:
 \csvautotabular{data/average_percent_ner_nel_agreement_per_article_in_overlapping_tags.csv}
-\csvautotabular{data/ner_nel_agreement_on_overlapping_tags_per_type.csv}
-\csvautotabular{data/ner_nel_disagreement_on_overlapping_tags_per_type.csv}
-\csvautotabular{data/ner_nel_agreement_in_overlapping__by_type_matches_vs_mismatches_per_type_percent.csv}
+When grouping all the overlaps per article, the average percentage type disagreement between the Linker and the NER was of 22.5\%.
+This means it is likely that the taggers will assign the same type to a given tag, once they both found it.
+Nevertheless, the disagreement percent is still significant and worth exploring.
 
+\csvautotabular{data/ner_nel_disagreement_on_overlapping_tags_per_type.csv}
+\csvautotabular{data/overall_overlap_type_matches_vs_mismatches_percent.csv}
+\csvautotabular{data/ner_nel_agreement_in_overlapping__by_type_matches_vs_mismatches_per_type_percent.csv}
+As can be seen in the tables above, the overlapping ENAMEX type agreement between the NER tagger and the linker occured exclusively on
+the PERSON and LOCATION types in the documents tagged.
+On the overlapping tags, all ORGANISATIONS found by the NER tagger were typed differently by the linker.
+It is safe to assume that, when it comes to LOCATION ENAMEX types, both Named Entity recognition and linking have similar performance,
+and the Stanford NER tagger didn't use any gazzeteers\todo{stanford gazeteers???}\cite{stanfordfaq} for the tagging process.
+
+Next, combining the NIL table with the overlapping tags for which there is type disagreement, a broad description of the Long-tail entity set for the dataset can be given.
+The distribution of long-tail entities on the corpus per type, can be seen on the next table.
+Showing again how the ENAMEX ORGANIZATION type is the most common.
+The overall distribution of long-tail entity mentions them consits of 11\% of all the Stanford NER mentions.
+Again, an interesting analysis, consists of grouping the long-tail entities per article and averaging their distributions per article.
+This gives a surprising average of over 24.35\%.
+The difference between this value and the overall Long-tail distribution could mean that there are some articles predominantly conformed of long-tail entities.
+
+\todo{add sub conclusion to all data evaluations}
 \csvautotabular{data/longtail_per_type.csv}
 \csvautotabular{data/overall_longtail.csv}
-\csvautotabular{data/overall_overlap_type_matches_vs_mismatches_percent.csv}
 \csvautotabular{data/average_longtail_percent_per_article.csv}
