@@ -229,7 +229,7 @@ so that Spark could later load it into memory.
 
 \subsubsection{Querying the Tags table}
 Once the \textit{Tags} table had been created, \textit{Zeppelin}\cite{zeppelin} was used to interact with the spark cluster to cache the table into memory with the following command.
-\input{queries/cache_tabel.sql}
+\input{queries/cache_table.sql}
 
 Caching the table allowed for the fast querying of the tag table, which fit with the exploratory quality of the research work to be done on the data.
 The following queries where tested in \textit{Zeppelin}, and then persisted by inserting their output into an Amazon \textit{S3} bucket with \textit{Hive}.
