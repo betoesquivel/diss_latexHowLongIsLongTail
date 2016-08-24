@@ -433,7 +433,6 @@ When grouping all the overlaps per article, the average percentage type disagree
 This means it is likely that the taggers will assign the same type to a given tag, once they both found it.
 Nevertheless, the disagreement percent is still significant and worth exploring.
 
-
 \begin{figure}
     \centering
     \begin{subfigure}
@@ -442,23 +441,18 @@ Nevertheless, the disagreement percent is still significant and worth exploring.
         \csvautotabular{data/ner_nel_disagreement_on_overlapping_tags_per_type.csv}
         \caption{Disagreement on overlapping tags per type}
     \end{subfigure}%
-
-
     \begin{subfigure}
         \label{fig:agreementvsdisagreementpercent}
         \centering
         \csvautotabular{data/overall_overlap_type_matches_vs_mismatches_percent.csv}
         \caption{Overall overlapped tags agreement between StanfordNER and Spotlight}
     \end{subfigure}%
-
-
     \begin{subfigure}
         \label{fig:agreementnernelbytype}
         \centering
         \csvautotabular{data/ner_nel_agreement_in_overlapping__by_type_matches_vs_mismatches_per_type_percent.csv}
         \caption{Overall overlapped tags agreement between StanfordNER and Spotlight by type}
     \end{subfigure}%
-
     \caption{ENAMEX type agreement on overlaps between StanfordNER an Spotlight}
 \end{figure}
 
@@ -476,23 +470,18 @@ and the Stanford NER tagger didn't use any gazzeteers\todo{stanford gazeteers???
         \csvautotabular{data/longtail_per_type.csv}
         \caption{Long-tail entities per ENAMEX type}
     \end{subfigure}%
-
-
     \begin{subfigure}
         \label{fig:longtail}
         \centering
         \csvautotabular{data/overall_longtail.csv}
         \caption{Overall Long-tail tags}
     \end{subfigure}%
-
-
     \begin{subfigure}
         \label{fig:avglongtailpercentperarticle}
         \centering
         \csvautotabular{data/average_longtail_percent_per_article.csv}
         \caption{Average Long-tail tag percentage per article}
     \end{subfigure}%
-
     \caption{Describing Long-tail entities in 100,000 tagged articles using differences between StanfordNER and Spotlight taggers}
 \end{figure}
 
