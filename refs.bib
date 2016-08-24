@@ -2,7 +2,8 @@ INTRODUCTION
 WEB PATTERNS SEARCH IS MAINLY ENTITY BASED
 Evaluation techniques measure quality of retrieved docs, same might be happening with entity linking, measuring the quality of links
 An argument is to be made that long-tail entities are becoming more and more important
-@inproceedings{Pound:2010:AOR:1772690.1772769,
+//@inproceedings{Pound:2010:AOR:1772690.1772769,
+@inproceedings{webpatterns,
  author = {Pound, Jeffrey and Mika, Peter and Zaragoza, Hugo},
  title = {Ad-hoc Object Retrieval in the Web of Data},
  booktitle = {Proceedings of the 19th International Conference on World Wide Web},
@@ -23,7 +24,8 @@ An argument is to be made that long-tail entities are becoming more and more imp
 Entity linking can lead to improval of tasks such as summarisation, search, classification
 More specifically search as an example: 64% of queries are unique -> entity linking can be used to group queries under a particular entity
 But for this, recall must be improved, more focus on new entities
-@inproceedings{Hollink:2013:WUM:2488388.2488438,
+//@inproceedings{Hollink:2013:WUM:2488388.2488438,
+@inproceedings{entitylinkingforir,
  author = {Hollink, Laura and Mika, Peter and Blanco, Roi},
  title = {Web Usage Mining with Semantic Analysis},
  booktitle = {Proceedings of the 22Nd International Conference on World Wide Web},
@@ -41,6 +43,21 @@ But for this, recall must be improved, more focus on new entities
  keywords = {query log, query session, semantic analysis},
 } 
 
+Online news sites Commercial relevance
+@online{ventureradar,
+  author = {Gelareh Tghizadeh},
+  title = {TOP 5 COMPANIES INNOVATING WITH NATURAL LANGUAGE PROCESSING},
+  year = 2016,
+  url = {http://blog.ventureradar.com/2015/09/22/top-5-companies-innovating-with-natural-language-processing/},
+  urldate = {2015-09-22}
+}
+@online{techcrunch,
+  author = {Gelareh Tghizadeh},
+  title = {Natural Language Processing},
+  year = 2016,
+  url = {https://techcrunch.com/tag/natural-language-processing/},
+  urldate = {2016}
+}
 The EL linking task has been growing considerably
 focusing on broadening scope
 Broader scope = sparser set of entities to recognize
@@ -101,7 +118,8 @@ keywords = "Wikipedia",
 keywords = "Semi-structured resources",
 abstract = "Named Entity Linking (nel) grounds entity mentions to their corresponding node in a Knowledge Base (kb). Recently, a number of systems have been proposed for linking entity mentions in text to Wikipedia pages. Such systems typically search for candidate entities and then disambiguate them, returning either the best candidate or nil. However, comparison has focused on disambiguation accuracy, making it difficult to determine how search impacts performance. Furthermore, important approaches from the literature have not been systematically compared on standard data sets. We reimplement three seminal nel systems and present a detailed evaluation of search strategies. Our experiments find that coreference and acronym handling lead to substantial improvement, and search strategies account for much of the variation between systems. This is an interesting finding, because these aspects of the problem have often been neglected in the literature, which has focused largely on complex candidate ranking algorithms."
 }
-@inproceedings{rw_elo_palmer1997statistical,
+//@inproceedings{rw_elo_palmer1997statistical,
+@inproceedings{statisticalnerdescription,
   title={A statistical profile of the named entity task},
   author={Palmer, David D and Day, David S},
   booktitle={Proceedings of the fifth conference on Applied natural language processing},
@@ -122,7 +140,8 @@ abstract = "Named Entity Linking (nel) grounds entity mentions to their correspo
 
 
 DIRECTLY RELATED WORK on long tail entities 
-@inproceedings{Farid:2016:LEP:2911451.2911466,
+//@inproceedings{Farid:2016:LEP:2911451.2911466,
+@inproceedings{longtailresearch,
  author = {Farid, Mina and Ilyas, Ihab F. and Whang, Steven Euijong and Yu, Cong},
  title = {LONLIES: Estimating Property Values for Long Tail Entities},
  booktitle = {Proceedings of the 39th International ACM SIGIR Conference on Research and Development in Information Retrieval},
@@ -139,40 +158,19 @@ DIRECTLY RELATED WORK on long tail entities
  address = {New York, NY, USA},
  keywords = {entity search, knowledge base construction, question answering}
 }
-
-This goes at the end of entity linking intro right before NIL vs long-tail
-Challenges of entity linking
-The main challenges arise from
-word ambiguities inherent to natural language: surface form
-synonymy, i.e., different spans of text referring to the same
-entity, and homonymy, i.e., the same name being shared by
-multiple entities.
-Another example of probabilistic approaches => doesn't solve the problem of the heavy tail
-Concluded they want to expand getting from more info sources in order to enrich the probabilistic model
-The problem is when entities are new
-@inproceedings{Ganea:2016:PBM:2872427.2882988,
- author = {Ganea, Octavian-Eugen and Ganea, Marina and Lucchi, Aurelien and Eickhoff, Carsten and Hofmann, Thomas},
- title = {Probabilistic Bag-Of-Hyperlinks Model for Entity Linking},
- booktitle = {Proceedings of the 25th International Conference on World Wide Web},
- series = {WWW '16},
- year = {2016},
- isbn = {978-1-4503-4143-1},
- location = {Montr\&\#233;al, Qu\&\#233;bec, Canada},
- pages = {927--938},
- numpages = {12},
- url = {http://dx.doi.org/10.1145/2872427.2882988},
- doi = {10.1145/2872427.2882988},
- acmid = {2882988},
- publisher = {International World Wide Web Conferences Steering Committee},
- address = {Republic and Canton of Geneva, Switzerland},
- keywords = {approximate inference, entity disambiguation, entity linking, loopy belief propagation, probabilistic graphical models, wikification},
-} 
+@inproceedings{wu2016exploring,
+  title={Exploring Multiple Feature Spaces for Novel Entity Discovery},
+  author={Wu, Zhaohui and Song, Yang and Giles, C Lee},
+  booktitle={Thirtieth AAAI Conference on Artificial Intelligence},
+  year={2016}
+}
 
 Importance of Entity Linking
 Problems in Entity Linking
 Spotlight DB is the best [20] of the paper
 Syntactic and Semantic measures of correctness
-@inproceedings{Cornolti:2013:FBE:2488388.2488411,
+//@inproceedings{Cornolti:2013:FBE:2488388.2488411,
+@inproceedings{framework,
  author = {Cornolti, Marco and Ferragina, Paolo and Ciaramita, Massimiliano},
  title = {A Framework for Benchmarking Entity-annotation Systems},
  booktitle = {Proceedings of the 22Nd International Conference on World Wide Web},
@@ -188,6 +186,35 @@ Syntactic and Semantic measures of correctness
  publisher = {ACM},
  address = {New York, NY, USA},
  keywords = {wikipedia},
+} 
+
+This goes at the end of entity linking intro right before NIL vs long-tail
+Challenges of entity linking
+The main challenges arise from
+word ambiguities inherent to natural language: surface form
+synonymy, i.e., different spans of text referring to the same
+entity, and homonymy, i.e., the same name being shared by
+multiple entities.
+Another example of probabilistic approaches => doesn't solve the problem of the heavy tail
+Concluded they want to expand getting from more info sources in order to enrich the probabilistic model
+The problem is when entities are new
+//@inproceedings{Ganea:2016:PBM:2872427.2882988,
+@inproceedings{probabilistic,
+ author = {Ganea, Octavian-Eugen and Ganea, Marina and Lucchi, Aurelien and Eickhoff, Carsten and Hofmann, Thomas},
+ title = {Probabilistic Bag-Of-Hyperlinks Model for Entity Linking},
+ booktitle = {Proceedings of the 25th International Conference on World Wide Web},
+ series = {WWW '16},
+ year = {2016},
+ isbn = {978-1-4503-4143-1},
+ location = {Montr\&\#233;al, Qu\&\#233;bec, Canada},
+ pages = {927--938},
+ numpages = {12},
+ url = {http://dx.doi.org/10.1145/2872427.2882988},
+ doi = {10.1145/2872427.2882988},
+ acmid = {2882988},
+ publisher = {International World Wide Web Conferences Steering Committee},
+ address = {Republic and Canton of Geneva, Switzerland},
+ keywords = {approximate inference, entity disambiguation, entity linking, loopy belief propagation, probabilistic graphical models, wikification},
 } 
 @inproceedings{Signal1M2016,
     author    = {David Corney and Dyaa Albakour and Miguel Martinez and Samir Moussa},
