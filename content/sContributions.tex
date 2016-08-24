@@ -435,23 +435,16 @@ Nevertheless, the disagreement percent is still significant and worth exploring.
 
 \begin{figure}
     \centering
-    \begin{subfigure}
-        \label{fig:disagreementpertype}
-        \centering
+    \begin{subfigure}[Disagreement on overlapping tags per type]
         \csvautotabular{data/ner_nel_disagreement_on_overlapping_tags_per_type.csv}
-        \caption{Disagreement on overlapping tags per type}
     \end{subfigure}%
-    \begin{subfigure}
+    \begin{subfigure}[Overall overlapped tags agreement between StanfordNER and Spotlight]
         \label{fig:agreementvsdisagreementpercent}
-        \centering
         \csvautotabular{data/overall_overlap_type_matches_vs_mismatches_percent.csv}
-        \caption{Overall overlapped tags agreement between StanfordNER and Spotlight}
     \end{subfigure}%
-    \begin{subfigure}
+    \begin{subfigure}[Overall overlapped tags agreement between StanfordNER and Spotlight by type]
         \label{fig:agreementnernelbytype}
-        \centering
-        \csvautotabular{data/ner_nel_agreement_in_overlapping__by_type_matches_vs_mismatches_per_type_percent.csv}
-        \caption{Overall overlapped tags agreement between StanfordNER and Spotlight by type}
+   \csvautotabular{data/ner_nel_agreement_in_overlapping__by_type_matches_vs_mismatches_per_type_percent.csv}
     \end{subfigure}%
     \caption{ENAMEX type agreement on overlaps between StanfordNER an Spotlight}
 \end{figure}
