@@ -274,7 +274,7 @@ The preprocessing was done with a node script that called the Stanford CoreNLP s
 The reason Node was used was that the computation was going to be done by the server so the only requirement needed for the script was that it had good
 asynchronous performance, which is what NodeJS excels at.
 
-The database used to load the articles into memory for multiple concurrent instances of the tokenizing job script to read from was redis\cite{redis}.\todo{cite redis}
+The database used to load the articles into memory for multiple concurrent instances of the tokenizing job script to read from was redis\cite{redis}.
 All articles were kept there as a HashMap.
 
 \item[Upload tokenized articles to S3]
