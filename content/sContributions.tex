@@ -278,7 +278,20 @@ The database used to load the articles into memory for multiple concurrent insta
 All articles were kept there as a HashMap.
 
 \item[Upload tokenized articles to S3]
+Uploading the articles to S3 consisted of dumping them each into their own JSON file using their id as the JSON filename.
+All of the files were placed into the same folder and then uploaded to a previously created S3 bucket with the following command.
+\begin{lstlisting}[language=bash]
+  $ aws s3 sync ../parsed_articles/ s3://signal1mparsedarticles --quiet
+\end{lstlisting}
 
+\item[Queue job messages in AWS SQS for tagging]
+Queueing jobs for tagging in AWS SQS was done by reading from a set of Article Id's kept in memory locally in the researchers machine in a redis database,
+and uploading the job to SQS using the AWS SDK for SQS provided by Amazon for NodeJS.
+This was done concurrently, so multiple jobs where run at the same time on the researchers computer.
+
+\item[Start Lambda job distributer for Stanford NER Tagger]
+Once the jobs where all in SQS, a Node JS lambda function for said SQS queue was started to read messages and call the Stanford NER Tag Job Distributer 
+Node Lambda function that was going to call multiple times in parallel the java Stanford NER Tagger Lambda function.
 
 \end{description}
 
